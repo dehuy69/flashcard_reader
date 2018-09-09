@@ -17,4 +17,4 @@ while(True):
         print('Data : ', obj.data,'\n')
         priviouse = obj.data
   if cv2.waitKey(1) & 0xFF == ord('q'):
-      break
+    break
