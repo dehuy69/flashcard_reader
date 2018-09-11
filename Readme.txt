@@ -1,4 +1,4 @@
-cài ð?t thý vi?n b?ng các l?nh sau:
-sudo apt-get install libzbar-dev libzbar0
+# Cai dat cac goi sau:
+sudo apt-get install libzbar-dev libzbar0 zbar-tools python-zbar
 pip install -r requirement.txt
-Chýõng tr?nh này s? m? camera trên máy, n?u phát hi?n m? QR code, th? in ra console data ch?a trong qrcode ðó.
+# Chuong trinh se mo camera tren Rasp, neu phat hien qr code, se in ra console data trong qr code do.
