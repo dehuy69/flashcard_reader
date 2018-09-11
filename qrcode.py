@@ -1,13 +1,20 @@
 from __future__ import print_function
 import pyzbar.pyzbar as pyzbar
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 import numpy as np
 import cv2
 import time
 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture()
+camera = PiCamera()
 priviouse = []
 while(True):
-  ret, frame = cap.read()
+  # ret, frame = cap.read()
+  
+  rawCapture = PiRGBArray(camera)
+  camera.capture(rawCapture, format="bgr")
+  frame = rawCapture.array
   cv2.imshow('frame',frame)
   decodedObjects = pyzbar.decode(frame)
   if decodedObjects != []:      
