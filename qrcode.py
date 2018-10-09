@@ -14,7 +14,7 @@ audio_list = ['1.wav','2.wav','3.wav','4.wav','5.wav','6.wav','7.wav','8.wav','9
               ,'55.wav','56.wav','57.wav','58.wav','59.wav','60.wav','61.wav','62.wav']
 
 camera = PiCamera()
-camera.resolution = (480, 320)
+# camera.resolution = (480, 320)
 rawCapture = PiRGBArray(camera)
 privious_data = []
 privious_time = 0
