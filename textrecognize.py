@@ -1,4 +1,4 @@
-# import cv2
+import cv2
 import pytesseract
 from PIL import Image
 from picamera.array import PiRGBArray
@@ -8,11 +8,13 @@ camera = PiCamera()
 camera.resolution = (800, 600)
 rawCapture = PiRGBArray(camera)
 camera.start_preview(fullscreen=False, window=(100,20,800,600))
-for frame in camera.capture_continuous(rawCapture, format="jpeg", use_video_port=True):
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
   try:
     frame = rawCapture.array
+    im = cv2.resize(frame, (800, 600))
+    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
     # image = Image.open(rawCapture)
-    text = pytesseract.image_to_string(frame)
+    text = pytesseract.image_to_string(gray)
     print(text.encode('utf-8'))
     rawCapture.truncate(0)
   except:
