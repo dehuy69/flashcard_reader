@@ -13,7 +13,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     frame = rawCapture.array
     im = cv2.resize(frame, (800, 600))
     gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-    # image = Image.open(rawCapture)
+    cv2.imwrite('temp.jpg', gray)
+    gray = Image.open('temp.jpg')
     text = pytesseract.image_to_string(gray)
     print(text.encode('utf-8'))
     rawCapture.truncate(0)
