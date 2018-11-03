@@ -1,35 +1,34 @@
-import cv2
+# import cv2
 import pytesseract
-import os
-from PIL import Image
+# from PIL import Image
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
-# load the example image and convert it to grayscale
-image = cv2.imread('textimage2.png')
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+camera = PiCamera()
+# camera.resolution = (480, 320)
+rawCapture = PiRGBArray(camera)
+camera.start_preview(fullscreen=False, window=(100,20,480,320))
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+  try:
+    frame = rawCapture.array
+    text = pytesseract.image_to_string(frame)
+    print(text)
+  rawCapture.truncate(0)
+  except:
+    camera.stop_preview()
+    break
 
-# check to see if we should apply thresholding to preprocess the
-# image
-# if args["preprocess"] == "thresh":
-# 	gray = cv2.threshold(gray, 0, 255,
-# 		cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+def recognizetext(im=None, im_path=None):
+  if im_path != None:
+    image = Image.open(im_path)
+    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # filename = "{}.png".format(os.getpid())
+    # cv2.imwrite(filename, image)
+    text = pytesseract.image_to_string(image)
+    print(text)
+  else:
+    text = pytesseract.image_to_string(im)
+    print(text)
 
-# make a check to see if median blurring should be done to remove
-# noise
-# elif args["preprocess"] == "blur":
-# 	gray = cv2.medianBlur(gray, 3)
-
-# write the grayscale image to disk as a temporary file so we can
-# apply OCR to it
-filename = "{}.png".format(os.getpid())
-cv2.imwrite(filename, gray)
-
-# load the image as a PIL/Pillow image, apply OCR, and then delete
-# the temporary file
-text = pytesseract.image_to_string(Image.open(filename))
-os.remove(filename)
-print(text)
-
-# show the output images
-cv2.imshow("Image", image)
-cv2.imshow("Output", gray)
-cv2.waitKey(0)
+# if __name__=="__main__":
+#   recognizetext(im_path='textimage.png')
