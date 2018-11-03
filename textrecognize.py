@@ -13,7 +13,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     frame = rawCapture.array
     text = pytesseract.image_to_string(frame)
     print(text)
-  rawCapture.truncate(0)
+    rawCapture.truncate(0)
   except:
     camera.stop_preview()
     break
