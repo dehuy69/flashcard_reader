@@ -1,18 +1,19 @@
 # import cv2
 import pytesseract
-# from PIL import Image
+from PIL import Image
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
 camera = PiCamera()
-# camera.resolution = (480, 320)
+camera.resolution = (800, 600)
 rawCapture = PiRGBArray(camera)
-camera.start_preview(fullscreen=False, window=(100,20,480,320))
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+camera.start_preview(fullscreen=False, window=(100,20,800,600))
+for frame in camera.capture_continuous(rawCapture, format="jpeg", use_video_port=True):
   try:
     frame = rawCapture.array
+    # image = Image.open(rawCapture)
     text = pytesseract.image_to_string(frame)
-    print(text)
+    print(text.encode('utf-8'))
     rawCapture.truncate(0)
   except:
     camera.stop_preview()
@@ -25,7 +26,7 @@ def recognizetext(im=None, im_path=None):
     # filename = "{}.png".format(os.getpid())
     # cv2.imwrite(filename, image)
     text = pytesseract.image_to_string(image)
-    print(text)
+    print(text.encode('utf-8'))
   else:
     text = pytesseract.image_to_string(im)
     print(text)
